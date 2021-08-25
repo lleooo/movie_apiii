@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'STIX Two Text', serif;
+    }
+
+    body {
+        background-color: blueviolet;
+    }
+
+    .header {
+        background-color: rgb(98, 6, 184);
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5rem;
+    }
+
+    .header input {
+        background-color: transparent;
+        border: 2px solid rgb(199, 196, 196);
+        border-radius: 50px;
+        padding: 0.5rem;
+        outline: none;
+        outline: none;
+    }
+
+    .container_block {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(15px);
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .movie_box {
+        display: flex;
+        flex-direction: column;
+        background-color: cadetblue;
+        margin: 10px 15px;
+        width: 300px;
+        transform: scale(1, 1);
+        transition: all 0.5s ease-out;
+    }
+
+    .movie_box:hover {
+        transform: scale(1.05, 1.05);
+    }
+
+    img {
+        width: 100%;
+        height: 450px;
+        transform: scale(1, 1);
+        transition: all 0.5s ease-out;
+    }
+
+    .movie_info {
+        background-color: burlywood;
+        height: 4em;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .movie_title {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .movie_vote {
+        display: flex;
+        align-items: center;
+        background-color: rgb(228, 90, 90);
+        margin: 15px;
+        border-radius: 50%;
+        padding: 15px;
+    }
+
+    /**********************************************************************/
+    .movie_box2 {
+        width: 70%;
+        max-height: 70%;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: rgba(0, 0, 0, 0.95);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .close_box {
+        background-color: rgb(255, 255, 255);
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: center;
+        line-height: 50px;
+    }
+
+    .movie_box2 img {
+        max-width: 300px;
+        margin: 20px;
+    }
+
+    .box_content {
+        max-height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+        overflow: auto;
+        align-items: center;
+        padding: 15px 0px;
+    }
+
+    .box_title {
+        font-size: 60px;
+        height: 20%;
+        font-variant: small-caps;
+        font-weight: 400;
+    }
+
+    .box_outline {
+        width: 80%;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 20px;
+        letter-spacing: 1.5px;
+    }
+
+    .box_actor {
+        width: 85%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+
+    .box_actor img {
+        display: flex;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 15px;
+    }
+
+    .actor_name {
+        width: 100px;
+        margin: 15px;
+        text-align: center;
+    }
+
+    /*************************************************************/
+    @media (max-width:800px) {
+        .header input {
+            margin: auto;
+        }
+
+        .movie_box2{
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie_box2 img{
+            margin-top: 0%;
+        }
+
+        .box_title {
+            font-size: 30px;
+        }
+
+        .box_actor {
+            display: none;
+        }
+    }
+</style>
+
+<body>
+    <div class="header">
+        <input type="text" id="search" placeholder="search" class="search" style="color:rgb(186, 194, 194)">
+    </div>
+    <div class="container" id="container">
+    </div>
+</body>
+<script>
+
+    const APIURL = 'https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW&page=1'
+
+    var IMGPATH = "https://image.tmdb.org/t/p/w500/";
+
+    var movie_name = "";
+    var SearchAPI = 'https://api.themoviedb.org/3/search/movie?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW&query=';
+
+    var ACTOR_API = 'https://api.themoviedb.org/3/movie/';
+
+    var container = document.getElementById('container');
+    var search = document.getElementById('search');
+
+    var box_click = false;
+
+    getMovie(APIURL);
+
+    async function getMovie(API) {
+        const res = await fetch(API);
+        const data = await res.json();
+        console.log(data);
+        showMovie(data.results);
+    }
+
+    async function getActor(API, box_actor) {
+        const res = await fetch(API);
+        const data = await res.json();
+        console.log(data);
+        console.log(box_actor);
+
+        showActor(data.cast, box_actor);
+    }
+
+    /*****************************顯示所有電影**********************************/
+    function showMovie(movie) {
+        movie.forEach(element => {
+            const movie_box = document.createElement('div');
+            movie_box.className = "movie_box";
+            movie_box.id = "movie_box";
+            const movie_img = document.createElement("img");
+            const movie_info = document.createElement("div");
+            movie_info.className = "movie_info";
+            const movie_title = document.createElement("div");
+            const movie_vote = document.createElement("div");
+            movie_title.className = "movie_title";
+            movie_vote.className = "movie_vote";
+            movie_img.src = IMGPATH + element.poster_path;
+            movie_title.innerHTML = element.title;
+            movie_vote.innerHTML = element.vote_average + "分";
+            container.appendChild(movie_box);
+            movie_box.appendChild(movie_img);
+            movie_box.appendChild(movie_info);
+            movie_info.appendChild(movie_title);
+            movie_info.appendChild(movie_vote);
+
+            movie_box.onclick = function () {
+                if (box_click == false) {
+                    var detail = {
+                        pic: IMGPATH + element.poster_path,
+                        title: element.title,
+                        outline: element.overview,
+                        id: element.id
+                    }
+                    showDetail(detail);
+                    box_click = true;
+                }
+                else { }
+            }
+        });
+
+    }
+    /*****************************顯示電影內容**********************************/
+    function showDetail(movie) {
+
+        const container_block = document.createElement('div');
+        container_block.className = 'container_block';
+        container.appendChild(container_block);
+        const movie_box2 = document.createElement('div');
+        movie_box2.className = "movie_box2";
+        const close_box = document.createElement('div')
+        close_box.className = "close_box";
+        const box_img = document.createElement("img");
+        const box_content = document.createElement('div');
+        box_content.className = "box_content";
+        const box_title = document.createElement('div');
+        box_title.className = 'box_title';
+        const box_actor = document.createElement('div');
+        box_actor.className = "box_actor"
+        box_actor.id = "box_actor";
+        const box_outline = document.createElement('div');
+        box_outline.className = 'box_outline';
+
+        close_box.innerHTML = "X";
+        box_img.src = movie.pic;
+        box_title.innerHTML = movie.title;
+        box_outline.innerHTML = movie.outline;
+        container.appendChild(movie_box2);
+        movie_box2.appendChild(box_img);
+        movie_box2.appendChild(box_content);
+        movie_box2.appendChild(close_box);
+        box_content.appendChild(box_title);
+        box_content.appendChild(box_outline);
+        box_content.appendChild(box_actor);
+        getActor(ACTOR_API + movie.id + '/credits?api_key=e147528034b3b1192f389af6460b3ad9&language=en-US', box_actor);
+
+        close_box.addEventListener('click', function () {
+            container.removeChild(movie_box2);
+            container.removeChild(container_block);
+            box_click = false;
+        })
+
+    }
+    /***********************電影演員******************************************/
+    function showActor(actor, box_actor) {
+        for (var i = 0; i < 7; i++) {
+            const actor_item = document.createElement('div');
+            actor_item.className = 'actor_item';
+            const actor_img = document.createElement('img');
+            const actor_name = document.createElement('div');
+            actor_name.className = 'actor_name';
+            actor_img.src = IMGPATH + actor[i].profile_path;
+            console.log(actor[i].name);
+            actor_name.innerHTML = actor[i].name;
+            box_actor.appendChild(actor_item);
+            actor_item.appendChild(actor_img);
+            actor_item.appendChild(actor_name);
+        }
+    }
+    /*******************************電影搜尋功能*********************************/
+
+    search.addEventListener('keydown', function (e) {
+        if (e.keyCode == 13) {
+            searchMovie();
+        }
+    })
+
+    function searchMovie() {
+        if (search.value == '') {
+            container.innerHTML = '';
+            getMovie(APIURL);
+        }
+        else {
+            container.innerHTML = '';
+            movie_name = search.value;
+
+            getMovie(SearchAPI + movie_name + "&page=1&include_adult=false");
+            console.log(SearchAPI + movie_name);
+        }
+    }
+</script>
+
+</html>
