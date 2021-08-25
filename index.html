@@ -100,6 +100,7 @@
 
     /**********************************************************************/
     .movie_box2 {
+        box-sizing: border-box;
         width: 70%;
         max-height: 70%;
         position: fixed;
@@ -109,6 +110,7 @@
         background-color: rgba(0, 0, 0, 0.95);
         display: flex;
         align-items: center;
+        justify-content: space-around;
         overflow: hidden;
     }
 
@@ -122,14 +124,23 @@
         text-align: center;
         line-height: 50px;
     }
-
-    .movie_box2 img {
+    
+    .box_img_div{
+        /*width: 30%;
+        height: 70%;
+        background-color: antiquewhite;*/
+        /*margin-left: 80px ;*/
+      
+    }
+    .box_img_div img {
+        width: 100%;
         max-width: 300px;
-        margin: 20px;
     }
 
     .box_content {
-        max-height: 80%;
+        box-sizing: border-box;
+        max-height: 70%;
+        max-width: 70%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -176,16 +187,23 @@
 
     /*************************************************************/
     @media (max-width:800px) {
+
         .header input {
             margin: auto;
         }
 
         .movie_box2 {
+            width: 90%;
             max-height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow-y: visible;
+            overflow:scroll;
+            overflow-x: hidden;
+        }
+
+        .box_content{
+            overflow: visible;
         }
 
         .movie_box2 img {
@@ -195,10 +213,13 @@
         .box_title {
             font-size: 30px;
             margin-bottom: 15px;
+            font-weight: bolder;
+            border-bottom: 2px solid white;
         }
 
         .box_outline{
             padding: 10px;
+            overflow: visible;
         }
 
         .box_actor {
@@ -305,6 +326,8 @@
         movie_box2.className = "movie_box2";
         const close_box = document.createElement('div')
         close_box.className = "close_box";
+        const box_img_div = document.createElement("div");
+        box_img_div.className='box_img_div';
         const box_img = document.createElement("img");
         const box_content = document.createElement('div');
         box_content.className = "box_content";
@@ -321,7 +344,8 @@
         box_title.innerHTML = movie.title;
         box_outline.innerHTML = movie.outline;
         container.appendChild(movie_box2);
-        movie_box2.appendChild(box_img);
+        movie_box2.appendChild(box_img_div);
+        box_img_div.appendChild(box_img);
         movie_box2.appendChild(box_content);
         movie_box2.appendChild(close_box);
         box_content.appendChild(box_title);
