@@ -27,8 +27,13 @@
     .header {
         background-color: rgb(98, 6, 184);
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         padding: 0.5rem;
+    }
+
+    .header img {
+        width: 3em;
+        height: 3em;
     }
 
     .header input {
@@ -37,7 +42,6 @@
         border-radius: 50px;
         padding: 0.5rem;
         outline: none;
-
     }
 
     .container_block {
@@ -63,6 +67,7 @@
         width: 300px;
         transform: scale(1, 1);
         transition: all 0.5s ease-out;
+        cursor: pointer;
     }
 
     .movie_box:hover {
@@ -98,6 +103,41 @@
         padding: 15px;
     }
 
+    .page {
+        width: 100%;
+        height: 80px;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .previous_page {
+        width: 150px;
+        height: 100%;
+        font-size: 40px;
+        text-align: center;
+        line-height: 2em;
+        cursor: pointer;
+    }
+
+    .now_page {
+        width: 150px;
+        height: 100%;
+        font-size: 40px;
+        text-align: center;
+        line-height: 2em;
+    }
+
+    .next_page {
+        width: 150px;
+        height: 100%;
+        font-size: 40px;
+        text-align: center;
+        line-height: 2em;
+        cursor: pointer;
+    }
+
+
     /**********************************************************************/
     .movie_box2 {
         box-sizing: border-box;
@@ -124,14 +164,7 @@
         text-align: center;
         line-height: 50px;
     }
-    
-    .box_img_div{
-        /*width: 30%;
-        height: 70%;
-        background-color: antiquewhite;*/
-        /*margin-left: 80px ;*/
-      
-    }
+
     .box_img_div img {
         width: 100%;
         max-width: 300px;
@@ -155,6 +188,7 @@
         height: 20%;
         font-variant: small-caps;
         font-weight: 400;
+        border-bottom: 2px solid white;
     }
 
     .box_outline {
@@ -162,6 +196,7 @@
         font-family: 'Open Sans Condensed', sans-serif;
         font-size: 20px;
         letter-spacing: 1.5px;
+        padding-top: 1.5em;
     }
 
     .box_actor {
@@ -186,7 +221,7 @@
     }
 
     /*************************************************************/
-    @media (max-width:800px) {
+    @media (max-width:812px) {
 
         .header input {
             margin: auto;
@@ -198,11 +233,11 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow:scroll;
+            overflow: scroll;
             overflow-x: hidden;
         }
 
-        .box_content{
+        .box_content {
             overflow: visible;
         }
 
@@ -217,7 +252,7 @@
             border-bottom: 2px solid white;
         }
 
-        .box_outline{
+        .box_outline {
             padding: 10px;
             overflow: visible;
         }
@@ -230,28 +265,51 @@
 
 <body>
     <div class="header">
+        <img src='logo.png' id="logo">
         <input type="text" id="search" placeholder="search" class="search" style="color:rgb(186, 194, 194)">
     </div>
+
     <div class="container" id="container">
     </div>
+
+    <div class="page" id="page">
+
+        <div class="previous_page" id="previous_page"></div>
+        <div class="now_page" id="now_page"></div>
+        <div class="next_page" id="next_page"></div>
+        <div class="total_page" id="total_page"></div>
+
+    </div>
+
+
 </body>
+
+
 <script>
 
-    const APIURL = 'https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW&page=1'
+    const APIURL = 'https://api.themoviedb.org/3/movie/popular?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW&page='
 
     var IMGPATH = "https://image.tmdb.org/t/p/w500/";
 
-    var movie_name = "";
+    var movie_name = "";//search movie時的變數
     var SearchAPI = 'https://api.themoviedb.org/3/search/movie?api_key=e147528034b3b1192f389af6460b3ad9&language=zh-TW&query=';
 
     var ACTOR_API = 'https://api.themoviedb.org/3/movie/';
 
     var container = document.getElementById('container');
     var search = document.getElementById('search');
+    var page = document.getElementById('page');
+    var previous_page = document.getElementById('previous_page');
+    var now_page = document.getElementById('now_page');
+    var next_page = document.getElementById('next_page');
+    var total_page = document.getElementById('total_page');
+    var logo = document.getElementById('logo');
+    var which_page = 1;//目前正在哪一頁的變數
 
-    var box_click = false;
+    var box_click = false;//判斷電影是否被點擊
+    var search_movie = false;//判斷是否在搜尋電影的頁面
 
-    getMovie(APIURL);
+    getMovie(APIURL + "1");
 
     async function getMovie(API) {
         const res = await fetch(API);
@@ -307,12 +365,13 @@
             }
         });
     }
+    /*************隱藏container的scrollbar****************************/
     function stopScroll(box_click) {
         var body = document.body;
-        if (!box_click) {     
+        if (!box_click) {
             body.style.overflow = "hidden";
         }
-        else{
+        else {
             body.style.overflow = "auto";
         }
     }
@@ -327,7 +386,7 @@
         const close_box = document.createElement('div')
         close_box.className = "close_box";
         const box_img_div = document.createElement("div");
-        box_img_div.className='box_img_div';
+        box_img_div.className = 'box_img_div';
         const box_img = document.createElement("img");
         const box_content = document.createElement('div');
         box_content.className = "box_content";
@@ -370,7 +429,6 @@
             const actor_name = document.createElement('div');
             actor_name.className = 'actor_name';
             actor_img.src = IMGPATH + actor[i].profile_path;
-            console.log(actor[i].name);
             actor_name.innerHTML = actor[i].name;
             box_actor.appendChild(actor_item);
             actor_item.appendChild(actor_img);
@@ -387,17 +445,77 @@
 
     function searchMovie() {
         if (search.value == '') {
+            which_page = 1;
             container.innerHTML = '';
-            getMovie(APIURL);
+            getMovie(APIURL + which_page);
+            search_movie = false;
         }
         else {
             container.innerHTML = '';
             movie_name = search.value;
-
             getMovie(SearchAPI + movie_name + "&page=1&include_adult=false");
-            console.log(SearchAPI + movie_name);
+            search_movie = true;
+            which_page = 1;
+            now_page.innerHTML = which_page;
         }
     }
+
+    /**********************下一頁功能***************************/
+    next_page.addEventListener('click', nextPage);
+    previous_page.addEventListener('click', previousPage);
+    next_page.innerHTML = ">";
+    previous_page.innerHTML = "<";
+    now_page.innerHTML = which_page;
+
+    function nextPage() {
+        if (search_movie == true) {
+            which_page++;
+            container.innerHTML = '';
+            getMovie(SearchAPI + movie_name + "&page=" + which_page + "&include_adult=false");
+            now_page.innerHTML = which_page;
+        }
+        else {
+            which_page++;
+            console.log(which_page);
+            container.innerHTML = '';
+            getMovie(APIURL + which_page);
+            now_page.innerHTML = which_page;
+        }
+    }
+
+    function previousPage() {
+        if (search_movie == true) {
+            if (which_page == 1) {
+                which_page = 1;
+            }
+            else {
+                which_page--;
+                container.innerHTML = '';
+                getMovie(SearchAPI + movie_name + "&page=" + which_page + "&include_adult=false");
+                now_page.innerHTML = which_page;
+            }
+        }
+        else {
+            if (which_page == 1) {
+                which_page = 1;
+            }
+            else {
+                which_page--;
+                console.log(which_page);
+                container.innerHTML = '';
+                getMovie(APIURL + which_page);
+                now_page.innerHTML = which_page;
+            }
+        }
+    }
+    /***********logo click**********************/
+    logo.addEventListener('click', function () {
+        which_page = 1;
+        container.innerHTML = '';
+        getMovie(APIURL + which_page);
+        now_page.innerHTML = which_page;
+    })
+
 </script>
 
 </html>
