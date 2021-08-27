@@ -31,7 +31,7 @@
         padding: 0.5rem;
     }
 
-    .header img {
+    #logo {
         width: 3em;
         height: 3em;
     }
@@ -54,15 +54,18 @@
     }
 
     .container {
+        width: 85%;
+        margin: auto;
+        box-sizing: border-box;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        padding: 3em;
     }
 
     .movie_box {
         display: flex;
         flex-direction: column;
-        background-color: cadetblue;
         margin: 10px 15px;
         width: 300px;
         transform: scale(1, 1);
@@ -74,14 +77,17 @@
         transform: scale(1.05, 1.05);
     }
 
-    img {
-        width: 100%;
+    .container img {
+        width: 300px;
         height: 450px;
         transform: scale(1, 1);
         transition: all 0.5s ease-out;
+        margin: auto;
     }
 
     .movie_info {
+        margin: auto;
+        width: 300px;
         background-color: burlywood;
         height: 4em;
         display: flex;
@@ -165,10 +171,6 @@
         line-height: 50px;
     }
 
-    .box_img_div img {
-        width: 100%;
-        max-width: 300px;
-    }
 
     .box_content {
         box-sizing: border-box;
@@ -184,17 +186,17 @@
     }
 
     .box_title {
-        font-size: 60px;
+        font-size: 2em;
         height: 20%;
         font-variant: small-caps;
-        font-weight: 400;
+        font-weight: 800;
         border-bottom: 2px solid white;
     }
 
     .box_outline {
         width: 80%;
         font-family: 'Open Sans Condensed', sans-serif;
-        font-size: 20px;
+        font-size: 1em;
         letter-spacing: 1.5px;
         padding-top: 1.5em;
     }
@@ -204,7 +206,6 @@
         display: flex;
         flex-wrap: wrap;
     }
-
 
     .box_actor img {
         display: flex;
@@ -221,7 +222,7 @@
     }
 
     /*************************************************************/
-    @media (max-width:812px) {
+    @media (max-width:1280px) {
 
         .header input {
             margin: auto;
@@ -241,8 +242,10 @@
             overflow: visible;
         }
 
+
         .movie_box2 img {
             margin-top: 0%;
+            margin: auto;
         }
 
         .box_title {
