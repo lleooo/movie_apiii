@@ -1,0 +1,250 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'STIX Two Text', serif;
+}
+
+body {
+    background-color: blueviolet;
+}
+
+.header {
+    background-color: rgb(98, 6, 184);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+#logo {
+    width: 3em;
+    height: 3em;
+}
+
+.header input {
+    background-color: transparent;
+    border: 2px solid rgb(199, 196, 196);
+    border-radius: 50px;
+    padding: 0.5rem;
+    outline: none;
+}
+
+.container_block {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(15px);
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 3em;
+}
+
+.movie_box {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 15px;
+    width: 300px;
+    transform: scale(1, 1);
+    transition: all 0.5s ease-out;
+    cursor: pointer;
+}
+
+.movie_box:hover {
+    transform: scale(1.05, 1.05);
+}
+
+.container img {
+    width: 300px;
+    height: 450px;
+    transform: scale(1, 1);
+    transition: all 0.5s ease-out;
+    margin: auto;
+}
+
+.movie_info {
+    margin: auto;
+    width: 300px;
+    background-color: burlywood;
+    height: 4em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie_title {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.movie_vote {
+    display: flex;
+    align-items: center;
+    background-color: rgb(228, 90, 90);
+    margin: 15px;
+    border-radius: 50%;
+    padding: 15px;
+}
+
+.page {
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.previous_page {
+    width: 150px;
+    height: 100%;
+    font-size: 40px;
+    text-align: center;
+    line-height: 2em;
+    cursor: pointer;
+}
+
+.now_page {
+    width: 150px;
+    height: 100%;
+    font-size: 40px;
+    text-align: center;
+    line-height: 2em;
+}
+
+.next_page {
+    width: 150px;
+    height: 100%;
+    font-size: 40px;
+    text-align: center;
+    line-height: 2em;
+    cursor: pointer;
+}
+
+
+/**********************************************************************/
+.movie_box2 {
+    box-sizing: border-box;
+    width: 70%;
+    max-height: 70%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+}
+
+.close_box {
+    background-color: rgb(255, 255, 255);
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 50px;
+}
+
+
+.box_content {
+    box-sizing: border-box;
+    max-height: 70%;
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    overflow: auto;
+    align-items: center;
+    padding: 15px 0px;
+}
+
+.box_title {
+    font-size: 2em;
+    height: 20%;
+    font-variant: small-caps;
+    font-weight: 800;
+    border-bottom: 2px solid white;
+}
+
+.box_outline {
+    width: 80%;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 1em;
+    letter-spacing: 1.5px;
+    padding-top: 1.5em;
+}
+
+.box_actor {
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box_actor img {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+.actor_name {
+    width: 100px;
+    margin: 15px;
+    text-align: center;
+}
+
+/*************************************************************/
+@media (max-width:1280px) {
+
+    .header input {
+        margin: auto;
+    }
+
+    .movie_box2 {
+        width: 90%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .box_content {
+        overflow: visible;
+    }
+
+
+    .movie_box2 img {
+        margin-top: 0%;
+        margin: auto;
+    }
+
+    .box_title {
+        font-size: 30px;
+        margin-bottom: 15px;
+        font-weight: bolder;
+        border-bottom: 2px solid white;
+    }
+
+    .box_outline {
+        padding: 10px;
+        overflow: visible;
+    }
+
+    .box_actor {
+        display: none;
+    }
+}
